@@ -72,7 +72,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 
 这相当于针对所提供的 URL 运行了两条命令—— `git svn init` 加上 `git svn fetch` 。可能会花上一段时间。我们所用的测试项目仅仅包含 75 次提交并且它的代码量不算大，所以只有几分钟而已。不过，Git 仍然需要提取每一个版本，每次一个，再逐个提交。对于一个包含成百上千次提交的项目，花掉的时间则可能是几小时甚至数天。
 
-`-T trunk -b branches -t tags` 告诉 Git 该 Subversion 仓库遵循了基本的分支和标签命名法则。如果你的主干(译注：trunk，相当于非分布式版本控制里的master分支，代表开发的主线），分支或者标签以不同的方式命名，则应做出相应改变。由于该法则的常见性，可以使用 `-s` 来代替整条命令，它意味着标准布局（s 是 Standard layout 的首字母），也就是前面选项的内容。下面的命令有相同的效果：
+`-T trunk -b branches -t tags` 告诉 Git 该 Subversion 仓库遵循了基本的分支和标签命名法则。如果你的主干[^8-t1]，分支或者标签以不同的方式命名，则应做出相应改变。由于该法则的常见性，可以使用 `-s` 来代替整条命令，它意味着标准布局（s 是 Standard layout 的首字母），也就是前面选项的内容。下面的命令有相同的效果：
 
 	$ git svn clone file:///tmp/test-svn -s
 
@@ -129,7 +129,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这一步很重要，因为它意味着所有 commit 的 SHA-1 指都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id` （译注：即本段开头所说的特别标识）：
+所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这一步很重要，因为它意味着所有 commit 的 SHA-1 指都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id`[^8-t2]：
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -423,7 +423,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-在这个 `fast-import` 目录下，应该有一个叫做 `git-p4` 的 Python 可执行脚本。主机上必须装有 Python 和 `p4` 工具该导入才能正常进行。例如，你要从 Perforce 公共代码仓库（译注： Perforce Public Depot，Perforce 官方提供的代码寄存服务）导入 Jam 工程。为了设定客户端，我们要把 P4PORT 环境变量 export 到 Perforce 仓库：
+在这个 `fast-import` 目录下，应该有一个叫做 `git-p4` 的 Python 可执行脚本。主机上必须装有 Python 和 `p4` 工具该导入才能正常进行。例如，你要从 Perforce 公共代码仓库[^8-t3]导入 Jam 工程。为了设定客户端，我们要把 P4PORT 环境变量 export 到 Perforce 仓库：
 
 	$ export P4PORT=public.perforce.com:1666
 
@@ -500,7 +500,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 为了导入到一个 Git 目录，我们首先回顾一下 Git 储存数据的方式。你可能还记得，Git 本质上是一个 commit 对象的链表，每一个对象指向一个内容的快照。而这里需要做的工作就是告诉 `fast-import` 内容快照的位置，什么样的 commit 数据指向它们，以及它们的顺序。我们采取一次处理一个快照的策略，为每一个内容目录建立对应的 commit ，每一个 commit 与之前的建立链接。
 
-正如在第七章 "Git 执行策略一例" 一节中一样，我们将使用 Ruby 来编写这个脚本，因为它是我日常使用的语言而且阅读起来简单一些。你可以用任何其他熟悉的语言来重写这个例子——它仅需要把必要的信息打印到标准输出而已。同时，如果你在使用 Windows，这意味着你要特别留意不要在换行的时候引入回车符（译注：carriage returns，Windows 换行时加入的符号，通常说的 `\r` ）—— Git 的 fast-import 对仅使用换行符（LF）而非 Windows 的回车符（CRLF）要求非常严格。
+正如在第七章 "Git 执行策略一例" 一节中一样，我们将使用 Ruby 来编写这个脚本，因为它是我日常使用的语言而且阅读起来简单一些。你可以用任何其他熟悉的语言来重写这个例子——它仅需要把必要的信息打印到标准输出而已。同时，如果你在使用 Windows，这意味着你要特别留意不要在换行的时候引入回车符[^8-t4]—— Git 的 fast-import 对仅使用换行符（LF）而非 Windows 的回车符（CRLF）要求非常严格。
 
 首先，进入目标目录并且找到所有子目录，每一个子目录将作为一个快照被导入为一个 commit。我们将依次进入每一个子目录并打印所需的命令来导出它们。脚本的主循环大致是这样：
 
@@ -687,3 +687,8 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 ## 总结 ##
 
 现在的你应该掌握了在 Subversion 上使用 Git 以及把几乎任何先存仓库无损失的导入为 Git 仓库。下一章将介绍 Git 内部的原始数据格式，从而是使你能亲手锻造其中的每一个字节，如果必要的话。
+
+[^8-t1]: 译注：trunk，相当于非分布式版本控制里的master分支，代表开发的主线
+[^8-t2]: 译注：即本段开头所说的特别标识
+[^8-t3]: 译注： Perforce Public Depot，Perforce 官方提供的代码寄存服务
+[^8-t4]: 译注：carriage returns，Windows 换行时加入的符号，通常说的 `\r`

@@ -1,12 +1,43 @@
 # 《精通 Git》：《Pro Git》中文版
 
-这是《Pro Git》一书的中文版，原来由 [chunzi](https://github.com/chunzi) 翻译，但好像没有继续维护，所以我自己创建了一个 repo 用来维护中文版的翻译。
+生成电子书，包含 PDF、ePub 和 mobi 格式。
 
-这个 repo 中的文件组织和[官方](https://github.com/progit/progit)的不一样，在维护这个版本的同时，我还会更新官方版本。
+## 下载电子书
 
-## 阅读
+<https://selfstore.io/products/46>
 
-你可以在 <http://about.ac/progit-cn> 阅读这本书，还可以下载 PDF、ePub 和 Mobi 电子书。
+## 开发者
+
+1.  克隆仓库
+
+    ```sh
+    git clone https://github.com/AndorChen/progit-cn.git
+    ```
+
+2.  获取子模块
+
+    ```sh
+    git submodule init
+    git submodule update
+    ```
+
+3.  安装 Rake
+
+    ```sh
+    bundle
+    ```
+
+4.  复制 Markdown 文件
+
+    ```sh
+    bundle exec rake copy:markdown [lang='zh']
+    ```
+
+5.  复制图片（基本上只需执行一次）
+
+    ```sh
+    bundle exec rake copy:figure
+    ```
 
 ## 维护者
 

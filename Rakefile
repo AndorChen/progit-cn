@@ -6,7 +6,7 @@ root = File.expand_path('.')
 
 def replace_figure_markup_in(file)
   content = File.read(file)
-  content.gsub!(/Insert\s18333fig\d+\.png\s*\n.*?(\d{1,2})-(\d{1,2})\. (.*)/, '![图 \1-\2：\3](images/\1.\2.png "\1.\2 \3")')
+  content.gsub!(/Insert\s18333fig\d+\.png\s*\n.*?(\d{1,2})-(\d{1,2})\. (.*)/, '![图 \1-\2：\3](images/\1-\2.png)')
   File.open(file, 'w') do |f|
     f.puts content
   end
@@ -43,7 +43,7 @@ namespace :copy do
     puts "Copying figures from #{from} ..."
     FileUtils.cd(from) do
       Dir.glob('18333*.png') do |figure|
-        dest = File.join(to, figure.sub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
+        dest = File.join(to, figure.sub(/18333fig0(\d)0?(\d+)\-tn/, '\1-\2'))
         FileUtils.cp(figure, dest)
       end
     end

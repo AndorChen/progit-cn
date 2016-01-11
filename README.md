@@ -2,10 +2,6 @@
 
 生成电子书，包含 PDF、ePub 和 mobi 格式。
 
-## 下载电子书
-
-<https://selfstore.io/products/46>
-
 ## 开发者
 
 1.  克隆仓库
